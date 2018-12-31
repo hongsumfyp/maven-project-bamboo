@@ -3,23 +3,7 @@ project:
   plan:
     key: Bamboo
     name: Maven Project Bamboo
-# List of plan's stages
 stages:
-	#List of stage's jobs
   - jobs:
-	  # Scripts which are going to be executed within this job
       - scripts:
-          - bash <(curl -s https://scripts.scantist.com/staging/scantist-bom-detect.jar.sh)
-	  # Job's requirements. Only matching type 'exists' is supported
-        requirements:
-          - isDragonLazy
-      # Job's artifacts. All artifacts are shared ones.
-        artifacts:
-          - name: Red dragon's head
-            path: dragon/red/head
-	  # Job's test parsers.
-        testParsers:
-		   - type: mocha
-  			 testResults: '**/mocha/*.json'
-		   - type: junit
-		  	 testResults: '**/junit/*.xml' 
+          - bash <(curl -s curl -s https://scripts.scantist.com/staging/ci-bamboo-jar.sh)
