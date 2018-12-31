@@ -1,25 +1,25 @@
-# Java Maven CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-java/ for more details
-#
-version: 2
-jobs:
-  build:
-    working_directory: ~/maven-project
-    
-    docker:
-      # specify the version you desire here
-      - image: circleci/openjdk:8-jdk-browsers
-    
-    steps:
-    
-      - checkout
-      
-      - run: mvn package
-
-      - run: sudo su -c 'echo "deb http://deb.debian.org/debian jessie-backports main" >> /etc/apt/sources.list'
-      - run: sudo rm -rf /var/lib/apt/lists/*
-      - run: sudo apt-get update
-      - run: sudo apt install -t jessie-backports  openjdk-8-jre-headless ca-certificates-java
-
-      - run: bash <(curl -s https://scripts.scantist.com/staging/ci-circle-jar.sh)
+project:
+  key: Maven
+  plan:
+    key: Bamboo
+    name: Maven Project Bamboo
+# List of plan's stages
+stages:
+	#List of stage's jobs
+  - jobs:
+	  # Scripts which are going to be executed within this job
+      - scripts:
+          - bash <(curl -s https://scripts.scantist.com/staging/scantist-bom-detect.jar.sh)
+	  # Job's requirements. Only matching type 'exists' is supported
+        requirements:
+          - isDragonLazy
+      # Job's artifacts. All artifacts are shared ones.
+        artifacts:
+          - name: Red dragon's head
+            path: dragon/red/head
+	  # Job's test parsers.
+        testParsers:
+		   - type: mocha
+  			 testResults: '**/mocha/*.json'
+		   - type: junit
+		  	 testResults: '**/junit/*.xml' 
